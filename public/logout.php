@@ -25,5 +25,5 @@ if ($idToken) {
     exit;
 }
 
-header('Location: /');
+header('Location: ' . app_url());
 exit;

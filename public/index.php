@@ -90,7 +90,7 @@ unset($_SESSION['auth_error']);
 
         <?php if (!$user): ?>
             <p class="notice">You are not signed in. Use the button below to begin the Okta login flow.</p>
-            <form method="post" action="auth/start.php">
+            <form method="post" action="<?= htmlspecialchars(app_url('auth/start.php'), ENT_QUOTES, 'UTF-8') ?>">
                 <button type="submit">Sign in with Okta</button>
             </form>
         <?php else: ?>
@@ -112,7 +112,7 @@ unset($_SESSION['auth_error']);
                     </details>
                 <?php endif; ?>
                 <footer>
-                    <a href="logout.php" role="button" class="contrast">Sign out</a>
+                    <a href="<?= htmlspecialchars(app_url('logout.php'), ENT_QUOTES, 'UTF-8') ?>" role="button" class="contrast">Sign out</a>
                 </footer>
             </article>
         <?php endif; ?>

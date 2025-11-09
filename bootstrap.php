@@ -42,3 +42,33 @@ function start_session_if_needed(): void
         session_start();
     }
 }
+
+function app_base_path(): string
+{
+    $config = app_config();
+    $basePath = trim($config['app_base_path'] ?? '/');
+
+    if ($basePath === '') {
+        $basePath = '/';
+    }
+
+    if ($basePath[0] !== '/') {
+        $basePath = '/' . $basePath;
+    }
+
+    $basePath = rtrim($basePath, '/');
+
+    return $basePath === '' ? '/' : $basePath;
+}
+
+function app_url(string $path = '/'): string
+{
+    $base = app_base_path();
+    $normalizedPath = $path === '' ? '/' : ('/' . ltrim($path, '/'));
+
+    if ($normalizedPath === '/' || $normalizedPath === '') {
+        return $base === '/' ? '/' : $base . '/';
+    }
+
+    return ($base === '/' ? '' : $base) . $normalizedPath;
+}

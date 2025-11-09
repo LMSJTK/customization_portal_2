@@ -38,6 +38,7 @@ Set the following environment variables before running the PHP development serve
 - `OKTA_REDIRECT_URI` – e.g. `http://localhost:8000/auth/callback.php`
 - `OKTA_POST_LOGOUT_REDIRECT` – e.g. `http://localhost:8000/`
 - `OKTA_SCOPES` – Optional; defaults to `openid profile email`
+- `APP_BASE_PATH` – Optional; set when the project is hosted in a subdirectory such as `/customization_portal_3`
 
 You can alternatively edit `config/app.php`, but environment variables should be preferred for production deployments.
 
@@ -51,7 +52,8 @@ deployed PHP endpoints inside the Okta application settings. For example, if you
 - **Sign-out redirect URI:** `https://foundational.solutions/customization_portal_3/`
 - **Base URI:** `https://foundational.solutions/customization_portal_3/`
 
-These should match the values supplied to `OKTA_REDIRECT_URI` and `OKTA_POST_LOGOUT_REDIRECT` in your environment. Okta
+These should match the values supplied to `OKTA_REDIRECT_URI` and `OKTA_POST_LOGOUT_REDIRECT` in your environment. Set
+`APP_BASE_PATH=/customization_portal_3` so that local redirects inside the PHP code resolve correctly. Okta
 will reject redirects that do not match the registered values exactly (including the trailing slash), so double-check
 for typos when moving between local development and production.
 

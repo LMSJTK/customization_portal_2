@@ -16,27 +16,27 @@ unset($_SESSION['pkce']);
 
 if (!$expectedState || !$codeVerifier || !$nonce) {
     $_SESSION['auth_error'] = 'Session expired or invalid login attempt. Please try again.';
-    header('Location: /');
+    header('Location: ' . app_url());
     exit;
 }
 
 if (time() - $pkceCreatedAt > 600) {
     $_SESSION['auth_error'] = 'Login attempt expired. Please try again.';
-    header('Location: /');
+    header('Location: ' . app_url());
     exit;
 }
 
 $state = $_GET['state'] ?? '';
 if (!hash_equals($expectedState, $state)) {
     $_SESSION['auth_error'] = 'State mismatch. Potential CSRF detected.';
-    header('Location: /');
+    header('Location: ' . app_url());
     exit;
 }
 
 $code = $_GET['code'] ?? null;
 if ($code === null) {
     $_SESSION['auth_error'] = 'Authorization code missing.';
-    header('Location: /');
+    header('Location: ' . app_url());
     exit;
 }
 
@@ -65,8 +65,7 @@ try {
     }
 
     $_SESSION['auth_error'] = $message;
-    $_SESSION['auth_error'] = $exception->getMessage();
 }
 
-header('Location: /');
+header('Location: ' . app_url());
 exit;
