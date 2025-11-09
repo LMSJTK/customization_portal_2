@@ -65,6 +65,7 @@ try {
     }
 
     $_SESSION['auth_error'] = $message;
+    $_SESSION['auth_error'] = $exception->getMessage();
 }
 
 header('Location: /');
