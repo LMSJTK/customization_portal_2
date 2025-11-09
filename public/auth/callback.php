@@ -59,6 +59,12 @@ try {
     $_SESSION['tokens'] = $tokenResponse;
     $_SESSION['user'] = $claims;
 } catch (Throwable $exception) {
+    $message = $exception->getMessage();
+    if (stripos($message, 'policy evaluation failed') !== false) {
+        $message .= ' Ensure the Okta user is assigned to the application and that any sign-on policies allow this flow.';
+    }
+
+    $_SESSION['auth_error'] = $message;
     $_SESSION['auth_error'] = $exception->getMessage();
 }
 
