@@ -2,17 +2,12 @@
 
 require_once __DIR__ . '/../bootstrap.php';
 
-use CustomizationPortal\Auth\OktaAuthClient;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['start_login'])) {
+    begin_okta_login_flow();
+}
 
 start_session_if_needed();
 $config = app_config();
-
-$client = new OktaAuthClient(
-    $config['okta_client_id'],
-    $config['okta_issuer'],
-    $config['okta_redirect_uri'],
-    $config['okta_scopes']
-);
 
 $user = $_SESSION['user'] ?? null;
 $error = $_SESSION['auth_error'] ?? null;
@@ -90,7 +85,8 @@ unset($_SESSION['auth_error']);
 
         <?php if (!$user): ?>
             <p class="notice">You are not signed in. Use the button below to begin the Okta login flow.</p>
-            <form method="post" action="<?= htmlspecialchars(app_url('auth/start.php'), ENT_QUOTES, 'UTF-8') ?>">
+            <form method="post" action="<?= htmlspecialchars(app_url(), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="start_login" value="1">
                 <button type="submit">Sign in with Okta</button>
             </form>
         <?php else: ?>
